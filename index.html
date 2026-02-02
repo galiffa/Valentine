@@ -345,7 +345,9 @@
       position: relative;
       display: grid;
       place-items: center;
-      min-height: 120px;
+      min-height: 160px;
+      width: min(320px, 80vw);
+      margin: 0 auto;
     }
 
     .btn {
@@ -506,6 +508,13 @@
 
       .countdown-text {
         font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .intro-actions {
+        min-height: 200px;
+        width: min(320px, 88vw);
       }
     }
 
@@ -887,8 +896,10 @@
 
     moveNoButton();
     noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('pointerdown', moveNoButton);
     noBtn.addEventListener('touchstart', moveNoButton);
     introActions.addEventListener('mousemove', dodgeIfClose);
+    introActions.addEventListener('touchstart', () => moveNoButton(), { passive: true });
     introActions.addEventListener('touchmove', (event) => {
       if (event.touches.length) {
         dodgeIfClose(event.touches[0]);
