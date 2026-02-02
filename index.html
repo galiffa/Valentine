@@ -376,7 +376,7 @@
       color: #7a2b4f;
       border: 1px solid rgba(194, 24, 91, 0.25);
       position: absolute;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, left 0.22s ease, top 0.22s ease;
     }
 
     .btn-no:hover {
@@ -847,11 +847,14 @@
     const moveNoButton = () => {
       const container = introActions.getBoundingClientRect();
       const yesRect = rectToLocal(yesBtn.getBoundingClientRect(), container);
+      const yesCenterX = yesRect.left + yesRect.width / 2;
+      const yesCenterY = yesRect.top + yesRect.height / 2;
       const btnWidth = noBtn.offsetWidth;
       const btnHeight = noBtn.offsetHeight;
       const maxX = Math.max(container.width - btnWidth, 0);
       const maxY = Math.max(container.height - btnHeight, 0);
 
+      const minDistance = Math.max(yesRect.width, yesRect.height) * 1.2;
       let nextX = 0;
       let nextY = 0;
       let placed = false;
@@ -865,7 +868,10 @@
           right: candidateX + btnWidth,
           bottom: candidateY + btnHeight,
         };
-        if (!isOverlapping(candidateRect, yesRect, 10)) {
+        const candidateCenterX = candidateX + btnWidth / 2;
+        const candidateCenterY = candidateY + btnHeight / 2;
+        const distance = Math.hypot(candidateCenterX - yesCenterX, candidateCenterY - yesCenterY);
+        if (!isOverlapping(candidateRect, yesRect, 12) && distance > minDistance) {
           nextX = candidateX;
           nextY = candidateY;
           placed = true;
@@ -874,8 +880,8 @@
       }
 
       if (!placed) {
-        nextX = maxX;
-        nextY = maxY;
+        nextX = yesCenterX < maxX / 2 ? maxX : 0;
+        nextY = yesCenterY < maxY / 2 ? maxY : 0;
       }
 
       noBtn.style.left = `${nextX}px`;

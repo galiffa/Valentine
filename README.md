@@ -1,23 +1,5 @@
 # Valentine Card Site
 
-This is a single-page Valentine’s Day card website.
+A playful, romantic one‑page web card made to ask someone special to be your Valentine. It features a cheeky landing screen, animated hearts, a love note reveal, and a Valentine’s Day countdown.
 
-## Quick start (local)
-Open `index.html` in your browser.
-
-## Publish on GitHub Pages
-1. Create a new GitHub repo (public or private).
-2. From this folder, run:
-   ```bash
-   git init
-   git add .
-   git commit -m "valentine card"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<your-repo>.git
-   git push -u origin main
-   ```
-3. In GitHub: Settings → Pages → Source = `Deploy from a branch`, Branch = `main`, Folder = `/ (root)`.
-4. Your site will be available at:
-   `https://<your-username>.github.io/<your-repo>/`
-
-If you want, tell me your GitHub username and repo name and I can tailor the exact commands.
+If you want to use it for someone else, just open `index.html` and personalize the text (names, message, and reasons list). Enjoy and spread the love.
