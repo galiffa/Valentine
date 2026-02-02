@@ -35,26 +35,27 @@
         radial-gradient(1200px 700px at 10% -10%, #fff 0%, rgba(255, 255, 255, 0) 60%),
         radial-gradient(1200px 700px at 110% 10%, #fff 0%, rgba(255, 255, 255, 0) 60%),
         linear-gradient(120deg, var(--rose-1) 0%, #fff 40%, var(--rose-2) 100%);
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       animation: bgDrift 18s ease-in-out infinite alternate;
     }
 
     .page {
-      min-height: 100%;
+      min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: 48px 20px 80px;
+      padding: 24px 16px 48px;
       position: relative;
     }
 
     .card {
-      width: min(900px, 92vw);
+      width: min(920px, 92vw);
       background: rgba(255, 255, 255, 0.78);
-      border-radius: 28px;
-      box-shadow: 0 20px 50px var(--shadow);
+      border-radius: 22px;
+      box-shadow: 0 16px 40px var(--shadow);
       position: relative;
       overflow: hidden;
-      padding: clamp(28px, 6vw, 64px);
+      padding: 24px;
       backdrop-filter: blur(8px);
       animation: cardFloat 8s ease-in-out infinite;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -89,70 +90,73 @@
       position: relative;
       z-index: 2;
       display: grid;
-      gap: 28px;
+      gap: 20px;
+      text-align: center;
     }
 
     h1 {
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-size: clamp(2.2rem, 7.4vw, 4.2rem);
       margin: 0;
       letter-spacing: 1px;
+      text-align: center;
     }
 
     .subtitle {
-      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      font-size: clamp(0.98rem, 3.2vw, 1.25rem);
       color: #7a2b4f;
       margin: 0;
     }
 
     .message {
-      font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+      font-size: clamp(1rem, 3.4vw, 1.35rem);
       line-height: 1.6;
       margin: 0;
     }
 
     .signature {
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+      font-size: clamp(1.1rem, 3.6vw, 1.6rem);
       margin: 0;
     }
 
     .heart-row {
       display: flex;
-      gap: 12px;
+      gap: clamp(6px, 2vw, 12px);
       align-items: center;
       justify-content: center;
-      margin: 8px 0;
+      margin: 4px 0;
     }
 
     .heart {
+      --heart-size: 20px;
       display: inline-block;
-      width: 28px;
-      height: 28px;
+      width: var(--heart-size);
+      height: var(--heart-size);
       background: var(--rose-3);
       position: relative;
       transform: rotate(-45deg);
       animation: pulse 2.2s infinite ease-in-out;
-      margin: 0 8px;
+      margin: 0 calc(var(--heart-size) / 3);
     }
 
     .heart::before,
     .heart::after {
       content: "";
-      width: 28px;
-      height: 28px;
+      width: var(--heart-size);
+      height: var(--heart-size);
       background: var(--rose-3);
       border-radius: 50%;
       position: absolute;
     }
 
     .heart::before {
-      top: -14px;
+      top: calc(var(--heart-size) / -2);
       left: 0;
     }
 
     .heart::after {
-      left: 14px;
+      left: calc(var(--heart-size) / 2);
       top: 0;
     }
 
@@ -300,6 +304,23 @@
       display: grid;
       gap: 22px;
       animation: fadeInUp 0.8s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro-card::after {
+      content: "";
+      position: absolute;
+      inset: -40% -10%;
+      background: radial-gradient(circle, rgba(255, 125, 170, 0.25), rgba(255, 125, 170, 0));
+      opacity: 0.7;
+      animation: glowPulse 6s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .intro-card > * {
+      position: relative;
+      z-index: 1;
     }
 
     .intro-title {
@@ -308,12 +329,23 @@
       margin: 0;
     }
 
+    .intro-subtitle {
+      margin: -6px 0 0;
+      font-size: clamp(0.95rem, 3.4vw, 1.15rem);
+      color: #7a2b4f;
+    }
+
+    .intro-footnote {
+      margin: 0;
+      font-size: 0.9rem;
+      color: rgba(74, 24, 49, 0.75);
+    }
+
     .intro-actions {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      flex-wrap: wrap;
       position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 120px;
     }
 
     .btn {
@@ -330,6 +362,7 @@
       background: var(--rose-3);
       color: #fff;
       box-shadow: 0 10px 20px rgba(255, 91, 154, 0.25);
+      animation: yesBounce 1.6s ease-in-out infinite;
     }
 
     .btn-yes:hover {
@@ -340,7 +373,8 @@
       background: #fff;
       color: #7a2b4f;
       border: 1px solid rgba(194, 24, 91, 0.25);
-      position: relative;
+      position: absolute;
+      transition: transform 0.2s ease;
     }
 
     .btn-no:hover {
@@ -364,9 +398,9 @@
     }
 
     .countdown {
-      margin: 24px auto 0;
+      margin: 20px auto 0;
       max-width: 520px;
-      padding: 18px 20px;
+      padding: 16px;
       border-radius: 18px;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 240, 248, 0.9));
       box-shadow: 0 12px 30px rgba(220, 70, 120, 0.18);
@@ -374,9 +408,9 @@
     }
 
     .countdown-label {
-      margin: 0 0 12px;
+      margin: 0 0 10px;
       font-family: "Playfair Display", Georgia, serif;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: #c94c7c;
@@ -384,7 +418,7 @@
 
     .countdown-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -401,20 +435,93 @@
 
     .countdown-number {
       font-family: "Playfair Display", Georgia, serif;
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       color: #b4376a;
     }
 
     .countdown-text {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #7b3d52;
     }
 
-    @media (max-width: 640px) {
+    @media (min-width: 720px) {
+      .page {
+        padding: 48px 20px 80px;
+      }
+
+      .card {
+        border-radius: 28px;
+        box-shadow: 0 20px 50px var(--shadow);
+        padding: clamp(28px, 6vw, 64px);
+      }
+
+      .content {
+        gap: 28px;
+      }
+
+      h1 {
+        font-size: clamp(2.6rem, 5vw, 4.2rem);
+      }
+
+      .subtitle {
+        font-size: clamp(1rem, 2.2vw, 1.25rem);
+      }
+
+      .message {
+        font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+      }
+
+      .signature {
+        font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+      }
+
+      .heart-row {
+        gap: clamp(10px, 2vw, 12px);
+        margin: 8px 0;
+      }
+
+      .heart {
+        --heart-size: 28px;
+      }
+
+      .countdown {
+        margin: 24px auto 0;
+        padding: 18px 20px;
+      }
+
+      .countdown-label {
+        margin: 0 0 12px;
+        font-size: 1.1rem;
+      }
+
       .countdown-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .countdown-number {
+        font-size: 1.6rem;
+      }
+
+      .countdown-text {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-height: 740px) {
+      .page {
+        padding: 24px 16px 48px;
+      }
+
+      .card {
+        max-height: calc(100vh - 72px);
+      }
+
+      .content {
+        max-height: calc(100vh - 160px);
+        overflow-y: auto;
+        padding-right: 6px;
       }
     }
 
@@ -475,22 +582,58 @@
         opacity: 0;
       }
     }
+
+    @keyframes yesBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px) scale(1.03); }
+    }
+
+    @keyframes glowPulse {
+      0% { transform: scale(0.95); opacity: 0.5; }
+      100% { transform: scale(1.05); opacity: 0.85; }
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 219, 236, 0.7);
+      border-radius: 999px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #ff8fbd, #ff5b9a);
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #ff75b0, #ff3f8e);
+    }
+
+    html {
+      scrollbar-color: #ff6aa6 rgba(255, 219, 236, 0.7);
+      scrollbar-width: thin;
+    }
   </style>
 </head>
 <body>
   <section class="intro-screen" id="introScreen">
     <div class="intro-card">
+      <h2 class="intro-title">Hey Gintare, can I steal your heart?</h2>
       <div class="heart-row" aria-hidden="true">
         <span class="heart"></span>
         <span class="heart"></span>
         <span class="heart"></span>
         <span class="heart"></span>
       </div>
-      <h2 class="intro-title">Gintare, will you be my Valentine?</h2>
+      <p class="intro-subtitle">Warning: clicking “Yes” may cause blushing, giggles, and extra cuddles.</p>
       <div class="intro-actions" id="introActions">
         <button class="btn btn-yes" id="yesBtn">Yes 💖</button>
         <button class="btn btn-no" id="noBtn">No</button>
       </div>
+      <p class="intro-footnote">P.S. The “No” button is a little shy.</p>
     </div>
   </section>
 
@@ -536,10 +679,7 @@
           </div>
         </div>
 
-        <div class="ribbon reveal" id="ribbon">Forever your biggest fan 💗</div>
-
-        <p class="signature reveal">With all my love,</p>
-        <a class="cta reveal" href="#">Marcus</a>
+        <p class="signature reveal">Always yours, with all my love, Marcus.</p>
 
         <p class="footer">(P.S. If you smile reading this, my heart wins.)</p>
       </div>
@@ -570,7 +710,6 @@
     const subtitle = document.getElementById('subtitle');
     const reasons = document.getElementById('reasons');
     const message = document.getElementById('message');
-    const ribbon = document.getElementById('ribbon');
     const countdownLabel = document.getElementById('countdownLabel');
     const countdownDays = document.getElementById('countdownDays');
     const countdownHours = document.getElementById('countdownHours');
@@ -595,7 +734,6 @@
         reasons.textContent = reasonsList[0];
         message.textContent =
           'Every day with you is my favorite kind of adventure — soft laughs, warm hugs, and a heart that feels perfectly at home. Thank you for being my sweetest yes.';
-        ribbon.textContent = 'Forever your biggest fan 💗';
         return;
       }
 
@@ -604,7 +742,6 @@
       reasons.textContent = reasonsList[0];
       message.textContent =
         'Even on ordinary days, you make everything softer, sweeter, and brighter. I love you so much, and I’m grateful for every moment we share.';
-      ribbon.textContent = 'Always yours 💞';
     };
 
     const startReasonsLoop = () => {
@@ -683,14 +820,55 @@
       window.setInterval(updateCountdown, 1000);
     });
 
+    const rectToLocal = (rect, container) => ({
+      left: rect.left - container.left,
+      top: rect.top - container.top,
+      right: rect.right - container.left,
+      bottom: rect.bottom - container.top,
+      width: rect.width,
+      height: rect.height,
+    });
+
+    const isOverlapping = (a, b, padding = 8) =>
+      a.left < b.right + padding &&
+      a.right > b.left - padding &&
+      a.top < b.bottom + padding &&
+      a.bottom > b.top - padding;
+
     const moveNoButton = () => {
-      const bounds = introActions.getBoundingClientRect();
-      const btnBounds = noBtn.getBoundingClientRect();
-      const maxX = bounds.width - btnBounds.width;
-      const maxY = bounds.height - btnBounds.height;
-      const nextX = Math.random() * Math.max(maxX, 0);
-      const nextY = Math.random() * Math.max(maxY, 0);
-      noBtn.style.position = 'absolute';
+      const container = introActions.getBoundingClientRect();
+      const yesRect = rectToLocal(yesBtn.getBoundingClientRect(), container);
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
+      const maxX = Math.max(container.width - btnWidth, 0);
+      const maxY = Math.max(container.height - btnHeight, 0);
+
+      let nextX = 0;
+      let nextY = 0;
+      let placed = false;
+
+      for (let i = 0; i < 20; i += 1) {
+        const candidateX = Math.random() * maxX;
+        const candidateY = Math.random() * maxY;
+        const candidateRect = {
+          left: candidateX,
+          top: candidateY,
+          right: candidateX + btnWidth,
+          bottom: candidateY + btnHeight,
+        };
+        if (!isOverlapping(candidateRect, yesRect, 10)) {
+          nextX = candidateX;
+          nextY = candidateY;
+          placed = true;
+          break;
+        }
+      }
+
+      if (!placed) {
+        nextX = maxX;
+        nextY = maxY;
+      }
+
       noBtn.style.left = `${nextX}px`;
       noBtn.style.top = `${nextY}px`;
     };
@@ -707,6 +885,7 @@
       }
     };
 
+    moveNoButton();
     noBtn.addEventListener('mouseenter', moveNoButton);
     noBtn.addEventListener('touchstart', moveNoButton);
     introActions.addEventListener('mousemove', dodgeIfClose);
