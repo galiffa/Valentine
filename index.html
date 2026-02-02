@@ -362,6 +362,119 @@
       pointer-events: auto;
       transition: opacity 0.6s ease;
     }
+
+    .countdown {
+      margin: 24px auto 0;
+      max-width: 520px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 240, 248, 0.9));
+      box-shadow: 0 12px 30px rgba(220, 70, 120, 0.18);
+      border: 1px solid rgba(231, 144, 183, 0.4);
+    }
+
+    .countdown-label {
+      margin: 0 0 12px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #c94c7c;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .countdown-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: inset 0 0 0 1px rgba(225, 126, 164, 0.25);
+    }
+
+    .countdown-number {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.6rem;
+      color: #b4376a;
+    }
+
+    .countdown-text {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #7b3d52;
+    }
+
+    @media (max-width: 640px) {
+      .countdown-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .reasons {
+      margin: 6px 0 0;
+      font-size: 1rem;
+      color: #b4517a;
+      font-style: italic;
+    }
+
+    .sparkle-burst {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .sparkle-heart {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ff7fb0);
+      transform: rotate(-45deg);
+      border-radius: 4px;
+      animation: sparkle-pop var(--sparkle-duration, 1.2s) ease-out forwards;
+      opacity: 0.9;
+    }
+
+    .sparkle-heart::before,
+    .sparkle-heart::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .sparkle-heart::before {
+      top: -8px;
+      left: 0;
+    }
+
+    .sparkle-heart::after {
+      left: 8px;
+      top: 0;
+    }
+
+    @keyframes sparkle-pop {
+      0% {
+        transform: translate(0, 0) scale(0.6) rotate(-45deg);
+        opacity: 0.95;
+      }
+      100% {
+        transform: translate(var(--sparkle-x), var(--sparkle-y)) scale(1.1) rotate(-45deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -394,11 +507,34 @@
           <span class="heart"></span>
         </div>
         <p class="subtitle reveal" id="subtitle">You make the ordinary feel magical.</p>
+        <p class="reasons reveal" id="reasons">Reason #1: You make me feel at home.</p>
 
         <p class="message reveal" id="message">
           Every day with you is my favorite kind of adventure — soft laughs, warm hugs, and a heart that feels
           perfectly at home. Thank you for being my sweetest yes.
         </p>
+
+        <div class="countdown reveal" id="countdown" aria-live="polite">
+          <p class="countdown-label" id="countdownLabel">Countdown to Feb 14</p>
+          <div class="countdown-grid" role="presentation">
+            <div class="countdown-box">
+              <span class="countdown-number" id="countdownDays">0</span>
+              <span class="countdown-text">Days</span>
+            </div>
+            <div class="countdown-box">
+              <span class="countdown-number" id="countdownHours">0</span>
+              <span class="countdown-text">Hours</span>
+            </div>
+            <div class="countdown-box">
+              <span class="countdown-number" id="countdownMinutes">0</span>
+              <span class="countdown-text">Minutes</span>
+            </div>
+            <div class="countdown-box">
+              <span class="countdown-number" id="countdownSeconds">0</span>
+              <span class="countdown-text">Seconds</span>
+            </div>
+          </div>
+        </div>
 
         <div class="ribbon reveal" id="ribbon">Forever your biggest fan 💗</div>
 
@@ -432,14 +568,31 @@
     const introActions = document.getElementById('introActions');
     const headline = document.getElementById('headline');
     const subtitle = document.getElementById('subtitle');
+    const reasons = document.getElementById('reasons');
     const message = document.getElementById('message');
     const ribbon = document.getElementById('ribbon');
+    const countdownLabel = document.getElementById('countdownLabel');
+    const countdownDays = document.getElementById('countdownDays');
+    const countdownHours = document.getElementById('countdownHours');
+    const countdownMinutes = document.getElementById('countdownMinutes');
+    const countdownSeconds = document.getElementById('countdownSeconds');
 
     const isValentinesDay = (date) => date.getMonth() === 1 && date.getDate() === 14;
+    const reasonsList = [
+      'Reason #1: You make me feel at home.',
+      'Reason #2: Your smile resets my whole day.',
+      'Reason #3: You make cozy feel like magic.',
+      'Reason #4: You are my favorite hello.',
+      'Reason #5: You make ordinary moments sparkle.',
+      'Reason #6: You are my safe place and my adventure.',
+    ];
+    let reasonIndex = 0;
+    let reasonsTimer = null;
     const setRevealCopy = () => {
       if (isValentinesDay(new Date())) {
-        headline.textContent = "Happy Valentine’s Day";
+        headline.textContent = "Happy Valentine’s Day, Gintare.";
         subtitle.textContent = 'You make the ordinary feel magical.';
+        reasons.textContent = reasonsList[0];
         message.textContent =
           'Every day with you is my favorite kind of adventure — soft laughs, warm hugs, and a heart that feels perfectly at home. Thank you for being my sweetest yes.';
         ribbon.textContent = 'Forever your biggest fan 💗';
@@ -447,10 +600,76 @@
       }
 
       headline.textContent = 'Thank you, pookie.';
-      subtitle.textContent = 'I’m so happy to have you.';
+      subtitle.textContent = 'I’m so happy to have you, Gintare.';
+      reasons.textContent = reasonsList[0];
       message.textContent =
         'Even on ordinary days, you make everything softer, sweeter, and brighter. I love you so much, and I’m grateful for every moment we share.';
       ribbon.textContent = 'Always yours 💞';
+    };
+
+    const startReasonsLoop = () => {
+      if (reasonsTimer) {
+        return;
+      }
+      reasonsTimer = window.setInterval(() => {
+        reasonIndex = (reasonIndex + 1) % reasonsList.length;
+        reasons.textContent = reasonsList[reasonIndex];
+      }, 3200);
+    };
+
+    const burstSparkles = () => {
+      const burst = document.createElement('div');
+      burst.className = 'sparkle-burst';
+      const count = 18;
+      for (let i = 0; i < count; i += 1) {
+        const spark = document.createElement('span');
+        spark.className = 'sparkle-heart';
+        const angle = (Math.PI * 2 * i) / count;
+        const distance = 80 + Math.random() * 60;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+        spark.style.setProperty('--sparkle-x', `${x}px`);
+        spark.style.setProperty('--sparkle-y', `${y}px`);
+        spark.style.setProperty('--sparkle-duration', `${0.9 + Math.random() * 0.6}s`);
+        burst.appendChild(spark);
+      }
+      document.body.appendChild(burst);
+      window.setTimeout(() => burst.remove(), 1600);
+    };
+
+    const getNextValentines = (fromDate) => {
+      const year = fromDate.getFullYear();
+      const valentinesThisYear = new Date(year, 1, 14, 0, 0, 0, 0);
+      if (fromDate <= valentinesThisYear) {
+        return valentinesThisYear;
+      }
+      return new Date(year + 1, 1, 14, 0, 0, 0, 0);
+    };
+
+    const updateCountdown = () => {
+      const now = new Date();
+      if (isValentinesDay(now)) {
+        countdownLabel.textContent = 'It’s Valentine’s Day ✨';
+        countdownDays.textContent = '0';
+        countdownHours.textContent = '0';
+        countdownMinutes.textContent = '0';
+        countdownSeconds.textContent = '0';
+        return;
+      }
+
+      const target = getNextValentines(now);
+      const diffMs = target - now;
+      const totalSeconds = Math.max(Math.floor(diffMs / 1000), 0);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      countdownLabel.textContent = `Countdown to ${target.getFullYear()} Valentine’s Day`;
+      countdownDays.textContent = String(days);
+      countdownHours.textContent = String(hours).padStart(2, '0');
+      countdownMinutes.textContent = String(minutes).padStart(2, '0');
+      countdownSeconds.textContent = String(seconds).padStart(2, '0');
     };
 
     yesBtn.addEventListener('click', () => {
@@ -458,6 +677,10 @@
       mainPage.classList.remove('page-hidden');
       mainPage.classList.add('page-visible');
       setRevealCopy();
+      updateCountdown();
+      burstSparkles();
+      startReasonsLoop();
+      window.setInterval(updateCountdown, 1000);
     });
 
     const moveNoButton = () => {
