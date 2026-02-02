@@ -386,21 +386,21 @@
 
     <main class="card">
       <div class="content">
-        <h1 class="reveal">Happy Valentine’s Day</h1>
+        <h1 class="reveal" id="headline">Happy Valentine’s Day</h1>
         <div class="heart-row reveal" aria-hidden="true">
           <span class="heart"></span>
           <span class="heart"></span>
           <span class="heart"></span>
           <span class="heart"></span>
         </div>
-        <p class="subtitle reveal">You make the ordinary feel magical.</p>
+        <p class="subtitle reveal" id="subtitle">You make the ordinary feel magical.</p>
 
-        <p class="message reveal">
+        <p class="message reveal" id="message">
           Every day with you is my favorite kind of adventure — soft laughs, warm hugs, and a heart that feels
           perfectly at home. Thank you for being my sweetest yes.
         </p>
 
-        <div class="ribbon reveal">Forever your biggest fan 💗</div>
+        <div class="ribbon reveal" id="ribbon">Forever your biggest fan 💗</div>
 
         <p class="signature reveal">With all my love,</p>
         <a class="cta reveal" href="#">Marcus</a>
@@ -430,11 +430,34 @@
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
     const introActions = document.getElementById('introActions');
+    const headline = document.getElementById('headline');
+    const subtitle = document.getElementById('subtitle');
+    const message = document.getElementById('message');
+    const ribbon = document.getElementById('ribbon');
+
+    const isValentinesDay = (date) => date.getMonth() === 1 && date.getDate() === 14;
+    const setRevealCopy = () => {
+      if (isValentinesDay(new Date())) {
+        headline.textContent = "Happy Valentine’s Day";
+        subtitle.textContent = 'You make the ordinary feel magical.';
+        message.textContent =
+          'Every day with you is my favorite kind of adventure — soft laughs, warm hugs, and a heart that feels perfectly at home. Thank you for being my sweetest yes.';
+        ribbon.textContent = 'Forever your biggest fan 💗';
+        return;
+      }
+
+      headline.textContent = 'Thank you, pookie.';
+      subtitle.textContent = 'I’m so happy to have you.';
+      message.textContent =
+        'Even on ordinary days, you make everything softer, sweeter, and brighter. I love you so much, and I’m grateful for every moment we share.';
+      ribbon.textContent = 'Always yours 💞';
+    };
 
     yesBtn.addEventListener('click', () => {
       introScreen.classList.add('intro-hidden');
       mainPage.classList.remove('page-hidden');
       mainPage.classList.add('page-visible');
+      setRevealCopy();
     });
 
     const moveNoButton = () => {
